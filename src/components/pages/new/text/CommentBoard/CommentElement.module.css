@@ -1,7 +1,7 @@
 .element {
     width: auto;
-    padding: 1em 1.5em;
-    margin: 1em 0;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
     background-color: #ffffff;
     border: 1px solid #000000;
     box-shadow: 0.1em 0.1em 0.1em rgb(60, 60, 60);
