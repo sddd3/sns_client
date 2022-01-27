@@ -1,19 +1,17 @@
-import { memo, useState, VFC } from 'react';
+import { memo, useState, useContext, VFC } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from '../../../providers/UserProvier';
 
 const SignIn: VFC = memo(() => {
+    const { setUserInfo } = useContext(UserContext);
+
     const [name, setName] = useState('test');
     const [email, setEmail] = useState('test@gmail.com');
     const [password, setPassword] = useState('12345678');
     const history = useHistory();
 
     const onClickRegisterButton = (event: any) => {
-        // const formData = new FormData();
-        // formData.append('name', name);
-        // formData.append('nickname', nickname);
-        // formData.append('email', email);
-        // formData.append('password', password);
         const body = { name, email, password };
 
         axios.post(`http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}${process.env.REACT_APP_API_BASE}/auth`,
@@ -22,9 +20,13 @@ const SignIn: VFC = memo(() => {
         })
             .then(res => {
                 console.log(`res: ${JSON.stringify(res)}`);
+                setUserInfo({ islogin: true, user: res });
                 history.push('/dashboard');
             })
-            .catch(error => console.log(`error: ${error}`));
+            .catch(error => {
+                setUserInfo({ islogin: false });
+                console.log(`error: ${error}`);
+            });
     }
 
     const onChangeNameField = (event: any) => {
