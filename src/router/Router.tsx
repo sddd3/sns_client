@@ -1,5 +1,5 @@
-import { memo, VFC } from 'react'
-import { Route, Switch } from 'react-router';
+import { memo, useContext, VFC } from 'react'
+import { Redirect, Route, Switch } from 'react-router';
 
 import Index from '../components/pages/index/Index';
 import SignIn from '../components/pages/signin/SignIn';
@@ -7,8 +7,12 @@ import dashboardRoute from './dashboard/DashboardRoute';
 import newPostRoute from './new/NewRoute'
 import Page404 from '../components/pages/common/Error/Page404';
 import Registration from '../components/pages/registration/Registration';
+import { UserContext } from '../providers/UserProvier';
 
 const Router: VFC = memo(() => {
+    const { userInfo } = useContext(UserContext);
+    const loggedIn = userInfo ? userInfo.loggedIn : false;
+
     return (
         <Switch>
             <Route exact path='/'>
@@ -23,20 +27,28 @@ const Router: VFC = memo(() => {
             {/* propsが受け取れ、propsの中のmatchのurlには/homeが格納されている */}
             <Route path='/dashboard' render={({ match: { url } }) => (
                 <Switch>
-                    {dashboardRoute.map((route) => (
-                        <Route key={route.path} exact={route.exact} path={`${url}${route.path}`}>
-                            {route.children}
-                        </Route>
-                    ))}
+                    {dashboardRoute.map((route) => {
+                        if (loggedIn === true) {
+                            return <Route key={route.path} exact={route.exact} path={`${url}${route.path}`}>
+                                {route.children}
+                            </Route>
+                        } else {
+                            return <Redirect key={route.path} to='/signin' />
+                        }
+                    })}
                 </Switch>
             )} />
             <Route path='/new' render={({ match: { url } }) => (
                 <Switch>
-                    {newPostRoute.map((route) => (
-                        <Route key={route.path} exact={route.exact} path={`${url}${route.path}`}>
-                            {route.children}
-                        </Route>
-                    ))}
+                    {newPostRoute.map((route) => {
+                        if (loggedIn === true) {
+                            return <Route key={route.path} exact={route.exact} path={`${url}${route.path}`}>
+                                {route.children}
+                            </Route>
+                        } else {
+                            return <Redirect key={route.path} to='/signin' />
+                        }
+                    })}
                 </Switch>
             )} />
             <Route path='*'>

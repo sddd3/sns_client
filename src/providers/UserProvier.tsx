@@ -1,11 +1,13 @@
 import { createContext, useState } from "react";
+import { userInfo } from "../types/UserInfo";
 
+// 今はanyにしておく
 export const UserContext = createContext<any>({});
 
 export const UserProvider = (props: any) => {
     const { children } = props;
-    const [userInfo, setUserInfo] = useState(null);
+    const [user, setUserInfo] = useState<userInfo>({ loggedIn: false, user: {} });
     return (
-        <UserContext.Provider value={{ userInfo, setUserInfo }}>{children}</UserContext.Provider>
+        <UserContext.Provider value={{ user, setUserInfo }}>{children}</UserContext.Provider>
     )
 }

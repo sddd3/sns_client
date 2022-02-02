@@ -20,11 +20,11 @@ const SignIn: VFC = memo(() => {
         })
             .then(res => {
                 console.log(`res: ${JSON.stringify(res)}`);
-                setUserInfo({ islogin: true, user: res });
+                setUserInfo({ loggedIn: true, user: res });
                 history.push('/dashboard');
             })
             .catch(error => {
-                setUserInfo({ islogin: false });
+                setUserInfo({ loggedIn: false });
                 console.log(`error: ${error}`);
             });
     }
