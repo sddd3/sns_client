@@ -7,10 +7,14 @@ import dashboardRoute from './dashboard/DashboardRoute';
 import newPostRoute from './new/NewRoute'
 import Page404 from '../components/pages/common/Error/Page404';
 import Registration from '../components/pages/registration/Registration';
-import { UserContext } from '../providers/UserProvier';
+// import { UserContext } from '../providers/UserProvier';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../store/UserState';
 
 const Router: VFC = memo(() => {
-    const { userInfo } = useContext(UserContext);
+    // const { userInfo } = useContext(UserContext);
+    // const loggedIn = userInfo ? userInfo.loggedIn : false;
+    const userInfo = useRecoilValue(userState);
     const loggedIn = userInfo ? userInfo.loggedIn : false;
 
     return (

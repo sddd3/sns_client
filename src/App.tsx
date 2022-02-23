@@ -1,18 +1,19 @@
 import { BrowserRouter } from 'react-router-dom';
+import Router from './router/Router';
 
 import './App.css';
-import { UserProvider } from './providers/UserProvier';
-import Router from './router/Router';
+// import { UserProvider } from './providers/UserProvier';
+import { RecoilRoot } from 'recoil';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <UserProvider>
-          <Router />
-        </UserProvider>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <RecoilRoot>
+        {/* <UserProvider> */}
+        <Router />
+        {/* </UserProvider> */}
+      </RecoilRoot>
+    </BrowserRouter>
   );
 }
 

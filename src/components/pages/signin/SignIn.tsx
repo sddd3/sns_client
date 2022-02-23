@@ -1,10 +1,14 @@
-import { memo, useState, useContext, VFC } from 'react';
+import { memo, useState, VFC } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { UserContext } from '../../../providers/UserProvier';
+// import { UserContext } from '../../../providers/UserProvier';
+
+import { useRecoilState } from 'recoil'
+import { userState } from '../../../store/UserState';
 
 const SignIn: VFC = memo(() => {
-    const { setUserInfo } = useContext(UserContext);
+    // const { setUserInfo } = useContext(UserContext);
+    const [userInfo, setUserInfo] = useRecoilState(userState);
 
     const [name, setName] = useState('test');
     const [email, setEmail] = useState('test@gmail.com');
@@ -24,7 +28,7 @@ const SignIn: VFC = memo(() => {
                 history.push('/dashboard');
             })
             .catch(error => {
-                setUserInfo({ loggedIn: false });
+                setUserInfo({ loggedIn: false, user: {} });
                 console.log(`error: ${error}`);
             });
     }
