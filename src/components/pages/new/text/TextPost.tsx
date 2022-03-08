@@ -1,6 +1,7 @@
 import { memo, useState, VFC } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { HTTPS_STATUS_FORBIDDEN } from '../../../../config';
 
 const TextPost: VFC = memo(() => {
     const [comment, setComment] = useState('');
@@ -17,7 +18,11 @@ const TextPost: VFC = memo(() => {
                 console.log(`res: ${JSON.stringify(res)}`);
                 history.push('/dashboard');
             })
-            .catch(error => console.log(`error: ${error}`));
+            .catch(error => {
+                if (error.status === HTTPS_STATUS_FORBIDDEN) {
+                    <Redirect to='/signin' />
+                }
+            });
     }
 
     const onChangeComment = (event: any) => {
